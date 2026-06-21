@@ -10,13 +10,13 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^10.2.4",
-    "css-loader": "^6.7.2",
+    "css-loader": "^6.11.0",
     "file-loader": "^6.2.0",
-    "mini-css-extract-plugin": "^2.7.0",
-    "prettier": "^2.7.1",
-    "webpack": "^5.75.0",
+    "mini-css-extract-plugin": "^2.10.2",
+    "prettier": "^2.8.8",
+    "webpack": "^5.107.2",
     "webpack-cli": "^4.10.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.10.0"
   },
   "dependencies": {
     "gridjs": "^5.1.0"
@@ -30,7 +30,7 @@
     "runtime": [
       {
         "name": "node",
-        "version": "^24.4.0",
+        "version": "^24.17.0",
         "onFail": "download"
       }
     ]
