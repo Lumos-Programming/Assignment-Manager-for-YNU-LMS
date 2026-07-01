@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Assignment Manager for YNU LMS",
-  "short_name": "ExtOfLMS",
-  "description": "Manage your homework easily",
+  "name": "YNU LMS 課題管理",
+  "short_name": "課題管理",
+  "description": "YNU LMS の課題を一覧で確認できます",
   "version": "2.4.1",
   "author": "Vimmer",
   "icons": {
