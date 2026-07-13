@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "YNU LMS 課題管理",
-  "short_name": "課題管理",
+  "name": "YNU LMS かだいくん",
+  "short_name": "かだいくん",
   "description": "YNU LMS の課題を一覧で確認できます",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "author": "Vimmer",
   "icons": {
     "16": "icons/icon_16.png",
