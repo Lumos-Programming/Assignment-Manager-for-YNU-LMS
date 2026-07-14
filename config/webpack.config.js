@@ -9,9 +9,9 @@ const PATHS = require('./paths');
 const config = (env, argv) =>
   merge(common, {
     entry: {
-      fetch_homework_storage: PATHS.src + '/fetch_homework_storage.js',
-      show_homework_storage: PATHS.src + '/show_homework_storage.js',
-      popup: PATHS.src + '/popup.js',
+      fetch_homework_storage: PATHS.src + '/fetch_homework_storage.ts',
+      show_homework_storage: PATHS.src + '/show_homework_storage.ts',
+      popup: PATHS.src + '/popup.ts',
     },
     devtool: argv.mode === 'production' ? false : 'source-map',
   });

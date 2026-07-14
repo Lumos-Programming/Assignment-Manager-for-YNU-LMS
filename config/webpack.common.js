@@ -26,8 +26,21 @@ const common = {
     assets: true,
     excludeAssets: [IMAGE_TYPES],
   },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
   module: {
     rules: [
+      // Compile TypeScript entrypoints and their imports. tsconfig sets
+      // noEmit for the standalone `typecheck` script, so re-enable emit here.
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        options: {
+          compilerOptions: { noEmit: false },
+        },
+        exclude: /node_modules/,
+      },
       // Help webpack in understanding CSS files imported in .js files
       {
         test: /\.css$/,

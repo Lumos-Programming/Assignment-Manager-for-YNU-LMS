@@ -15,24 +15,12 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   {
     // Source runs in the browser as a Chrome extension content script / popup.
-    files: ['src/**/*.{js,ts}'],
+    files: ['src/**/*.ts'],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.webextensions,
       },
-    },
-    rules: {
-      // The current JS entrypoints share implicit globals across content
-      // scripts (LANGUAGE, the *_TXT constants, A_TYPE, getLanguage, ...) and
-      // use `var` re-declaration inside if/else branches. This is legacy debt
-      // that the TypeScript migration (PR2) removes module-by-module. Until
-      // then, surface these as warnings so CI stays green while keeping the
-      // debt visible. PR2 restores each of these to "error".
-      'no-undef': 'warn',
-      'no-redeclare': 'warn',
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn',
     },
   },
   {
