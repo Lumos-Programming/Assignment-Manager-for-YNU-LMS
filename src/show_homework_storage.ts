@@ -5,16 +5,21 @@
 import { Grid, h, UserConfig } from 'gridjs';
 import { jaJP } from 'gridjs/l10n';
 
+import { dueTime } from './date';
 import { getLanguageFromPage } from './language';
 import { getMessages, Messages } from './i18n';
 import { loadAssignments, loadPreferences, saveAssignments } from './storage';
 import { Assignment, Language } from './types';
 
-// gridjs はパッケージのルートから TCell 型を再エクスポートしていない。描画後の
-// セルはプリミティブ・HTMLElement・値が props.content に入る Preact vnode の
-// いずれか。ソート／検索のヘルパー用に必要な部分だけ型として定義する。
-type GridCell = string | number | boolean | HTMLElement | { props?: unknown };
+// gridjs は TCell / Language 型をパッケージのルートから再エクスポートしていない
+// ため、pagination / language の境界では as で橋渡しする。
 type GridLanguageTable = Record<string, unknown>;
+
+// h() が返す vnode。preact の VNode 型は名前で参照できないため、gridjs が描画
+// する不透明なノードとして最小限に表す。
+type GridVNode = { readonly type: unknown; readonly props: unknown };
+// data に渡す 1 セルの入力値。文字列・DOM 要素・vnode のいずれか。
+type GridCell = string | HTMLElement | GridVNode;
 
 const DISPLAY_LIMIT_DAYS = 31;
 const MS_PER_DAY = 86400000;
@@ -30,7 +35,6 @@ interface SelectionControls {
   actionBtn: HTMLButtonElement;
 }
 
-/* エントリポイント */
 void injectAssignmentTable();
 
 function getGridLanguage(): GridLanguageTable {
@@ -259,7 +263,8 @@ function createCompletedAssignmentsSection(
   return sectionElem;
 }
 
-/** gridjs のセルの描画内容から HTML タグを除去する。 */
+// gridjs のコールバックが渡す描画後セル（.props.content を持つ）から HTML タグを
+// 除去する。gridjs の TCell 型は参照できないため unknown で受けて絞り込む。
 function cellText(cell: unknown): string {
   const content = (cell as { props?: { content?: unknown } })?.props?.content;
   if (typeof content === 'string') {
@@ -423,7 +428,7 @@ async function injectAssignmentTable(): Promise<void> {
         return typeof cell === 'string' ? cell : cellText(cell);
       },
     },
-    data: rows as UserConfig['data'],
+    data: rows,
     sort: true,
     // gridjs の PaginationConfig 型は `enabled` を過剰に必須としている。実行時は
     // pagination キーを渡すだけで有効になる。
@@ -442,8 +447,4 @@ async function injectAssignmentTable(): Promise<void> {
     );
   }
   mainElem.prepend(wrapperElem);
-}
-
-function dueTime(due: string | null): number {
-  return due ? new Date(due).getTime() : 0;
 }

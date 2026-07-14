@@ -3,6 +3,7 @@
 // 講義ごとの課題テーブルをページに注入する。
 
 import { getIconURLFromID, checkAssignmentType } from './assignment-type';
+import { dueTime } from './date';
 import { getLanguageFromPage } from './language';
 import { getMessages, Messages } from './i18n';
 import { loadAssignments, loadAssignmentIDs, saveAssignments } from './storage';
@@ -16,7 +17,6 @@ const COURSE_NAME_SELECTOR =
 const CURRENT_LECTURE_SELECTOR =
   'body > div.base > div.headerContents > div.breadCrumbBar > ul > li.current > a > p';
 
-/* エントリポイント */
 void (async () => {
   const language = getLanguageFromPage();
   const messages = getMessages(language);
@@ -192,10 +192,6 @@ function injectAssignmentTable(
     mainElem.prepend(listBlockElem);
     mainElem.prepend(bannerElem);
   }
-}
-
-function dueTime(due: string | null): number {
-  return due ? new Date(due).getTime() : 0;
 }
 
 function getLectureID(): string {

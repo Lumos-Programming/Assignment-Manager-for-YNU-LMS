@@ -1,39 +1,31 @@
-// UI 表示文字列のローカライズ。言語ごとに型付きのテーブルを 1 つ持ち、
-// 呼び出し側は getMessages(language) でテーブルを選ぶ。文字列は元の各ファイルの
-// *_TXT 定数からそのまま移植しており、挙動は変わらない。
+// UI 表示文字列のローカライズ。言語ごとのテーブルを getMessages(language) で選ぶ。
 
 import { Language } from './types';
 
 export interface Messages {
-  /** 課題一覧の見出し。 */
+  // 見出し・列見出し
   assignmentsHeading: string;
-  /** 列見出し: 課題名。 */
   assignmentColumn: string;
-  /** 列見出し: 提出期限。 */
   deadlineColumn: string;
-  /** 列見出し: 講義名。 */
   lectureColumn: string;
-  /** 列見出し: 表示切り替え。 */
   showColumn: string;
-  /** 列見出し: 選択操作。 */
   actionColumn: string;
 
-  // fetch_homework_storage: 未完了の課題を判別するための提出ステータス表示。
+  // 提出ステータス（未完了の課題の判別に使う）と公開終了ラベル
   notExecuted: string;
   notViewed: string;
   notSubmitted: string;
   notResponded: string;
   resubmission: string;
-  /** 課題が公開終了であることを示すラベル。 */
   unavailable: string;
 
-  // ポップアップの操作系。
+  // ポップアップの操作系
   clearAll: string;
   clearOverdue: string;
   recordsPerPageLabel: string;
   recordsPerPageError: string;
 
-  // show_homework_storage の選択操作系。
+  // 課題の完了・復元の操作系
   completeSelected: string;
   completedAssignments: string;
   restoreSelected: string;

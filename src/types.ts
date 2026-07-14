@@ -3,7 +3,6 @@
 /** UI 言語。実行コンテキストごとに判定する（language.ts を参照）。 */
 export type Language = 'English' | '日本語';
 
-/** 課題の種別。LMS の教材 ID プレフィックスから判定する。 */
 export enum AssignmentType {
   Other = 1,
   Report = 2,
@@ -30,7 +29,6 @@ export interface Assignment {
   hiddenReason?: 'done';
 }
 
-/** 設定を表す特別なレコードの ID。 */
 export const PREFERENCES_ID = 'PREFERENCES';
 
 export interface Preferences {

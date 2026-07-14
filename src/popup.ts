@@ -2,6 +2,7 @@
 // ツールバーアイコンのポップアップ。1 ページあたりの表示件数の調整、課題の
 // 消去、管理中の課題一覧の確認ができる。
 
+import { dueTime } from './date';
 import { getLanguageFromLocale } from './language';
 import { getMessages } from './i18n';
 import {
@@ -12,7 +13,7 @@ import {
   saveAssignment,
   savePreferences,
 } from './storage';
-import { Assignment, PREFERENCES_ID } from './types';
+import { Assignment, Preferences, PREFERENCES_ID } from './types';
 
 const MIN_RECORDS_PER_PAGE = 1;
 const MAX_RECORDS_PER_PAGE = 100;
@@ -21,17 +22,18 @@ const language = getLanguageFromLocale();
 const messages = getMessages(language);
 
 void (async () => {
-  await ensurePreferences();
-  await injectAssignmentTable();
+  const prefs = await ensurePreferences();
+  await injectAssignmentTable(prefs);
 })();
 
-/** 初回起動時にデフォルトの設定を書き込む。 */
-async function ensurePreferences(): Promise<void> {
+/** 初回起動時にデフォルトの設定を書き込み、確定した設定を返す。 */
+async function ensurePreferences(): Promise<Preferences> {
   const prefs = await loadPreferences();
   await savePreferences(prefs);
+  return prefs;
 }
 
-async function injectAssignmentTable(): Promise<void> {
+async function injectAssignmentTable(prefs: Preferences): Promise<void> {
   const bannerElem = document.createElement('div');
 
   const clearBtn = document.createElement('button');
@@ -57,7 +59,6 @@ async function injectAssignmentTable(): Promise<void> {
   recordPerPageInput.type = 'number';
   recordPerPageInput.min = String(MIN_RECORDS_PER_PAGE);
   recordPerPageInput.max = String(MAX_RECORDS_PER_PAGE);
-  const prefs = await loadPreferences();
   recordPerPageInput.value = String(prefs.recordPerPage);
 
   recordPerPageInput.addEventListener('input', () => {
@@ -178,8 +179,4 @@ async function clearOverdueAssignments(): Promise<void> {
   }
   await Promise.all(overdue.map((a) => removeAssignment(a.id)));
   location.reload();
-}
-
-function dueTime(due: string | null): number {
-  return due ? new Date(due).getTime() : 0;
 }

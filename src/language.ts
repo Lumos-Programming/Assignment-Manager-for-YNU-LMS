@@ -1,13 +1,9 @@
-// 言語判定。判定方法は実行コンテキストで異なる。コンテンツスクリプトは LMS
-// ページのログアウトボタンのラベルを読み取り、ポップアップは LMS の DOM を
-// 持たないためブラウザのロケールを用いる。
+// 言語判定。コンテンツスクリプトは LMS ページから、ポップアップは LMS の DOM を
+// 持たないためブラウザのロケールから判定する。
 
 import { Language } from './types';
 
-/**
- * LMS ページの UI（ログアウトボタンのラベル）から言語を判定する。
- * LMS ページに注入されるコンテンツスクリプトで使用する。
- */
+// ログアウトボタンのラベルから判定（コンテンツスクリプト用）。
 export function getLanguageFromPage(): Language {
   const logoutLink = document.querySelector<HTMLElement>(
     '#form-id > div > ul > li.logoutButtonFrame > a'
@@ -16,7 +12,7 @@ export function getLanguageFromPage(): Language {
   return logoutText.includes('Logout') ? 'English' : '日本語';
 }
 
-/** ブラウザのロケールから言語を判定する。ポップアップで使用する。 */
+// ブラウザのロケールから判定（ポップアップ用）。
 export function getLanguageFromLocale(): Language {
   return navigator.language === 'ja-JP' ? '日本語' : 'English';
 }

@@ -1,8 +1,7 @@
-// 課題種別とアイコンの判定。コンテンツスクリプト間で共有する。
+// 教材 ID から課題種別とアイコンを判定する。
 
 import { AssignmentType } from './types';
 
-/** LMS の教材 ID プレフィックスから課題の種別を判定する。 */
 export function checkAssignmentType(id: string): AssignmentType {
   if (id.includes('REP')) {
     return AssignmentType.Report;
@@ -16,7 +15,6 @@ export function checkAssignmentType(id: string): AssignmentType {
   return AssignmentType.Other;
 }
 
-/** 課題 ID に対応する LMS の教材アイコン URL を返す。 */
 export function getIconURLFromID(id: string): string {
   switch (checkAssignmentType(id)) {
     case AssignmentType.Report:
