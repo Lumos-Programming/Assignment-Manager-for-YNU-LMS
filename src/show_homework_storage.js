@@ -378,36 +378,36 @@ function injectAssignmentTable() {
       linkElem.target = '_blank';
       linkElem.rel = 'noopener nonreferrer';
 
-      let selectionCheckbox = h(
-        'input',
-        {
-          type: 'checkbox',
-          onChange: (event) => {
-            if (event.target.checked) {
-              selectedAssignments.set(assignment['id'], assignment);
-            } else {
-              selectedAssignments.delete(assignment['id']);
-            }
-            if (selectionControls) {
-              updateSelectedControls(
-                selectedAssignments,
-                selectionControls.selectedCountElem,
-                selectionControls.actionBtn
-              );
-            }
-          },
-          style: {
-            cursor: 'pointer',
-          },
-        }
-      );
+      let selectionCheckbox = h('input', {
+        type: 'checkbox',
+        onChange: (event) => {
+          if (event.target.checked) {
+            selectedAssignments.set(assignment['id'], assignment);
+          } else {
+            selectedAssignments.delete(assignment['id']);
+          }
+          if (selectionControls) {
+            updateSelectedControls(
+              selectedAssignments,
+              selectionControls.selectedCountElem,
+              selectionControls.actionBtn
+            );
+          }
+        },
+        style: {
+          cursor: 'pointer',
+        },
+      });
       asm.push([subjectElem, assignment['name'], linkElem, selectionCheckbox]);
     }
 
     let mainElem = document.querySelector('div.contentsColumn');
     const wrapperElem = document.createElement('div');
     const tableElem = document.createElement('div');
-    selectionControls = createSelectionControls(wrapperElem, selectedAssignments);
+    selectionControls = createSelectionControls(
+      wrapperElem,
+      selectedAssignments
+    );
     wrapperElem.appendChild(selectionControls.controlsElem);
     new Grid({
       columns: [

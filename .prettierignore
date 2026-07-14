@@ -2,3 +2,7 @@
 
 # Ignore artifacts:
 build
+
+# Vendored / minified assets should not be reformatted.
+public/mermaid.min.css
+pnpm-lock.yaml
