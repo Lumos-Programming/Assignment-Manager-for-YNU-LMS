@@ -1,9 +1,9 @@
-// Shared domain types for the extension.
+// 拡張機能全体で共有するドメイン型。
 
-/** UI language, derived per-context (see language.ts). */
+/** UI 言語。実行コンテキストごとに判定する（language.ts を参照）。 */
 export type Language = 'English' | '日本語';
 
-/** Assignment category, inferred from the LMS material id prefix. */
+/** 課題の種別。LMS の教材 ID プレフィックスから判定する。 */
 export enum AssignmentType {
   Other = 1,
   Report = 2,
@@ -12,10 +12,10 @@ export enum AssignmentType {
 }
 
 /**
- * A single homework/assignment tracked by the extension.
+ * 拡張機能が管理する 1 件の課題。
  *
- * Stored in `chrome.storage.sync` keyed by {@link Assignment.id}. `due` is an
- * ISO-8601 string (or `null` when the assignment has no deadline).
+ * {@link Assignment.id} をキーに `chrome.storage.sync` に保存される。`due` は
+ * ISO-8601 形式の文字列（提出期限がない課題では `null`）。
  */
 export interface Assignment {
   id: string;
@@ -25,12 +25,12 @@ export interface Assignment {
   name: string;
   due: string | null;
   isVisible: boolean;
-  /** Set when the assignment is marked done/hidden; ISO-8601 timestamp. */
+  /** 完了/非表示にした際に設定される ISO-8601 形式のタイムスタンプ。 */
   hiddenAt?: string;
   hiddenReason?: 'done';
 }
 
-/** The special preferences record. */
+/** 設定を表す特別なレコードの ID。 */
 export const PREFERENCES_ID = 'PREFERENCES';
 
 export interface Preferences {

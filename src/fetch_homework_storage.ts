@@ -1,6 +1,6 @@
 // fetch_homework_storage.ts
-// Content script for lecture pages: scrapes open (unsubmitted) assignments and
-// saves them, then injects a per-lecture assignment table.
+// 講義ページ用のコンテンツスクリプト。未提出（未完了）の課題を抽出して保存し、
+// 講義ごとの課題テーブルをページに注入する。
 
 import { getIconURLFromID, checkAssignmentType } from './assignment-type';
 import { getLanguageFromPage } from './language';
@@ -16,7 +16,7 @@ const COURSE_NAME_SELECTOR =
 const CURRENT_LECTURE_SELECTOR =
   'body > div.base > div.headerContents > div.breadCrumbBar > ul > li.current > a > p';
 
-/* main */
+/* エントリポイント */
 void (async () => {
   const language = getLanguageFromPage();
   const messages = getMessages(language);

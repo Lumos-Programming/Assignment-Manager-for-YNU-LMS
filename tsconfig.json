@@ -7,9 +7,9 @@
     "types": ["chrome"],
     "baseUrl": ".",
     "paths": {
-      // gridjs ships type declarations but its package.json "exports" map omits
-      // the "types" condition, so bundler resolution can't find them. Point at
-      // the real declaration files directly.
+      // gridjs は型定義を同梱しているが package.json の "exports" に "types"
+      // 条件が無いため、bundler 解決では見つけられない。実際の型定義ファイルを
+      // 直接指す。
       "gridjs": ["node_modules/gridjs/dist/index.d.ts"],
       "gridjs/l10n": ["node_modules/gridjs/l10n/dist/index.d.ts"]
     },

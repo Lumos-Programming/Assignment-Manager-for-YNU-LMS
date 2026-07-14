@@ -1,6 +1,6 @@
 // show_homework_storage.ts
-// Content script for the LMS home/course pages: renders the full assignment
-// list (via Grid.js) plus a "completed" section that can be restored.
+// LMS のトップ／コースページ用のコンテンツスクリプト。全課題の一覧（Grid.js で
+// 描画）と、一覧に戻せる「完了した課題」セクションを表示する。
 
 import { Grid, h, UserConfig } from 'gridjs';
 import { jaJP } from 'gridjs/l10n';
@@ -10,9 +10,9 @@ import { getMessages, Messages } from './i18n';
 import { loadAssignments, loadPreferences, saveAssignments } from './storage';
 import { Assignment, Language } from './types';
 
-// gridjs does not re-export its TCell type from the package root. A rendered
-// grid cell is a primitive, an HTMLElement, or a Preact vnode whose value lives
-// under props.content; model just that for the sort/search helpers.
+// gridjs はパッケージのルートから TCell 型を再エクスポートしていない。描画後の
+// セルはプリミティブ・HTMLElement・値が props.content に入る Preact vnode の
+// いずれか。ソート／検索のヘルパー用に必要な部分だけ型として定義する。
 type GridCell = string | number | boolean | HTMLElement | { props?: unknown };
 type GridLanguageTable = Record<string, unknown>;
 
@@ -30,13 +30,13 @@ interface SelectionControls {
   actionBtn: HTMLButtonElement;
 }
 
-/* main */
+/* エントリポイント */
 void injectAssignmentTable();
 
 function getGridLanguage(): GridLanguageTable {
   if (language !== 'English') {
-    // The original overwrites gridjs's structured `search` entry with a plain
-    // string and appends to the pagination summary; bridge through unknown.
+    // 元コードは gridjs の構造化された `search` エントリを文字列で上書きし、
+    // ページネーションの表示文言に追記している。unknown を経由して橋渡しする。
     const ja = jaJP as unknown as {
       search: string;
       pagination: { results: string };
@@ -259,7 +259,7 @@ function createCompletedAssignmentsSection(
   return sectionElem;
 }
 
-/** Strip HTML tags from a gridjs cell's rendered content. */
+/** gridjs のセルの描画内容から HTML タグを除去する。 */
 function cellText(cell: unknown): string {
   const content = (cell as { props?: { content?: unknown } })?.props?.content;
   if (typeof content === 'string') {
@@ -307,7 +307,7 @@ async function injectAssignmentTable(): Promise<void> {
   const hiddenAssignments: Assignment[] = [];
   const selectedAssignments = new Map<string, Assignment>();
 
-  // Built up front so the per-row checkbox handlers can reference it.
+  // 各行のチェックボックスのハンドラから参照できるよう、先に生成しておく。
   const wrapperElem = document.createElement('div');
   const selectionControls = createSelectionControls(
     wrapperElem,
@@ -320,7 +320,7 @@ async function injectAssignmentTable(): Promise<void> {
       continue;
     }
 
-    // Separate evaluation of visibility and days-left.
+    // 表示可否と残り日数を分けて評価する。
     let daysLeft = Number.NEGATIVE_INFINITY;
     if (assignment.due) {
       daysLeft = daysUntil(assignment.due);
@@ -425,8 +425,8 @@ async function injectAssignmentTable(): Promise<void> {
     },
     data: rows as UserConfig['data'],
     sort: true,
-    // gridjs's PaginationConfig type over-requires `enabled`; providing the
-    // pagination key is enough to enable it at runtime.
+    // gridjs の PaginationConfig 型は `enabled` を過剰に必須としている。実行時は
+    // pagination キーを渡すだけで有効になる。
     pagination: {
       limit: recordPerPage,
       summary: true,

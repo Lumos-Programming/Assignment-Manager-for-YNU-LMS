@@ -1,12 +1,12 @@
-// Language detection. Detection differs by context: content scripts read the
-// LMS page's logout button label, while the popup has no LMS DOM and relies on
-// the browser locale.
+// 言語判定。判定方法は実行コンテキストで異なる。コンテンツスクリプトは LMS
+// ページのログアウトボタンのラベルを読み取り、ポップアップは LMS の DOM を
+// 持たないためブラウザのロケールを用いる。
 
 import { Language } from './types';
 
 /**
- * Detect the language from the LMS page chrome (the logout button label).
- * Used by content scripts injected into LMS pages.
+ * LMS ページの UI（ログアウトボタンのラベル）から言語を判定する。
+ * LMS ページに注入されるコンテンツスクリプトで使用する。
  */
 export function getLanguageFromPage(): Language {
   const logoutLink = document.querySelector<HTMLElement>(
@@ -16,7 +16,7 @@ export function getLanguageFromPage(): Language {
   return logoutText.includes('Logout') ? 'English' : '日本語';
 }
 
-/** Detect the language from the browser locale. Used by the popup. */
+/** ブラウザのロケールから言語を判定する。ポップアップで使用する。 */
 export function getLanguageFromLocale(): Language {
   return navigator.language === 'ja-JP' ? '日本語' : 'English';
 }

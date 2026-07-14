@@ -1,8 +1,8 @@
-// Assignment type + icon derivation, shared by the content scripts.
+// 課題種別とアイコンの判定。コンテンツスクリプト間で共有する。
 
 import { AssignmentType } from './types';
 
-/** Infer the assignment category from its LMS material id prefix. */
+/** LMS の教材 ID プレフィックスから課題の種別を判定する。 */
 export function checkAssignmentType(id: string): AssignmentType {
   if (id.includes('REP')) {
     return AssignmentType.Report;
@@ -16,7 +16,7 @@ export function checkAssignmentType(id: string): AssignmentType {
   return AssignmentType.Other;
 }
 
-/** The LMS material icon URL for an assignment id. */
+/** 課題 ID に対応する LMS の教材アイコン URL を返す。 */
 export function getIconURLFromID(id: string): string {
   switch (checkAssignmentType(id)) {
     case AssignmentType.Report:

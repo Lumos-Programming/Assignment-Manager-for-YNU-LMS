@@ -31,8 +31,8 @@ const common = {
   },
   module: {
     rules: [
-      // Compile TypeScript entrypoints and their imports. tsconfig sets
-      // noEmit for the standalone `typecheck` script, so re-enable emit here.
+      // TypeScript のエントリと import をコンパイルする。tsconfig は単独の
+      // `typecheck` スクリプト用に noEmit を設定しているため、ここで出力を有効化する。
       {
         test: /\.ts$/,
         loader: 'ts-loader',

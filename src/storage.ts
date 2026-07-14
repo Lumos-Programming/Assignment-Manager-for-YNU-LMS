@@ -1,9 +1,8 @@
-// Promise-based, typed wrappers around chrome.storage.
+// chrome.storage を Promise 化した型付きラッパー。
 //
-// Assignments live in `chrome.storage.sync` keyed by their id. Preferences
-// live in `chrome.storage.local` under the `PREFERENCES` key. Historically a
-// stray `PREFERENCES` record could also end up in sync storage, so readers here
-// filter it out defensively.
+// 課題は id をキーに `chrome.storage.sync` に、設定は `PREFERENCES` キーで
+// `chrome.storage.local` に保存される。過去には sync 側に紛れ込んだ
+// `PREFERENCES` レコードが存在しうるため、読み取り時に防御的に除外している。
 
 import {
   Assignment,
@@ -21,7 +20,7 @@ function isAssignment(value: unknown): value is Assignment {
   );
 }
 
-/** All tracked assignments, in arbitrary order. */
+/** 管理中の全課題を返す（順序は不定）。 */
 export function loadAssignments(): Promise<Assignment[]> {
   return new Promise((resolve) => {
     chrome.storage.sync.get(null, (data) => {
@@ -30,20 +29,20 @@ export function loadAssignments(): Promise<Assignment[]> {
   });
 }
 
-/** The ids of all tracked assignments. */
+/** 管理中の全課題の id を返す。 */
 export async function loadAssignmentIDs(): Promise<string[]> {
   const assignments = await loadAssignments();
   return assignments.map((assignment) => assignment.id);
 }
 
-/** Persist a single assignment, keyed by its id. */
+/** 課題 1 件を id をキーに保存する。 */
 export function saveAssignment(assignment: Assignment): Promise<void> {
   return new Promise((resolve) => {
     chrome.storage.sync.set({ [assignment.id]: assignment }, () => resolve());
   });
 }
 
-/** Persist several assignments at once. */
+/** 複数の課題をまとめて保存する。 */
 export function saveAssignments(assignments: Assignment[]): Promise<void> {
   const updates: Record<string, Assignment> = {};
   for (const assignment of assignments) {
@@ -54,21 +53,21 @@ export function saveAssignments(assignments: Assignment[]): Promise<void> {
   });
 }
 
-/** Remove a single assignment by id. */
+/** id を指定して課題 1 件を削除する。 */
 export function removeAssignment(id: string): Promise<void> {
   return new Promise((resolve) => {
     chrome.storage.sync.remove(id, () => resolve());
   });
 }
 
-/** Remove every stored assignment. */
+/** 保存済みの課題をすべて削除する。 */
 export function clearAssignments(): Promise<void> {
   return new Promise((resolve) => {
     chrome.storage.sync.clear(() => resolve());
   });
 }
 
-/** Load preferences, falling back to defaults when unset. */
+/** 設定を読み込む。未設定の場合はデフォルト値を返す。 */
 export function loadPreferences(): Promise<Preferences> {
   return new Promise((resolve) => {
     chrome.storage.local.get(PREFERENCES_ID, (data) => {
@@ -82,7 +81,7 @@ export function loadPreferences(): Promise<Preferences> {
   });
 }
 
-/** Persist preferences. */
+/** 設定を保存する。 */
 export function savePreferences(prefs: Preferences): Promise<void> {
   return new Promise((resolve) => {
     chrome.storage.local.set({ [PREFERENCES_ID]: prefs }, () => resolve());

@@ -1,6 +1,6 @@
 // popup.ts
-// The browser-action popup: lets the user tune records-per-page, clear
-// assignments, and see the tracked list.
+// ツールバーアイコンのポップアップ。1 ページあたりの表示件数の調整、課題の
+// 消去、管理中の課題一覧の確認ができる。
 
 import { getLanguageFromLocale } from './language';
 import { getMessages } from './i18n';
@@ -25,7 +25,7 @@ void (async () => {
   await injectAssignmentTable();
 })();
 
-/** Seed default preferences on first run. */
+/** 初回起動時にデフォルトの設定を書き込む。 */
 async function ensurePreferences(): Promise<void> {
   const prefs = await loadPreferences();
   await savePreferences(prefs);

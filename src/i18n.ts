@@ -1,39 +1,39 @@
-// Localized UI strings. One typed table per language; callers pick the table
-// with getMessages(language). Strings are preserved verbatim from the original
-// per-file *_TXT constants so behavior is unchanged.
+// UI 表示文字列のローカライズ。言語ごとに型付きのテーブルを 1 つ持ち、
+// 呼び出し側は getMessages(language) でテーブルを選ぶ。文字列は元の各ファイルの
+// *_TXT 定数からそのまま移植しており、挙動は変わらない。
 
 import { Language } from './types';
 
 export interface Messages {
-  /** Heading for the assignment list. */
+  /** 課題一覧の見出し。 */
   assignmentsHeading: string;
-  /** Column header: assignment name. */
+  /** 列見出し: 課題名。 */
   assignmentColumn: string;
-  /** Column header: deadline. */
+  /** 列見出し: 提出期限。 */
   deadlineColumn: string;
-  /** Column header: lecture/subject. */
+  /** 列見出し: 講義名。 */
   lectureColumn: string;
-  /** Column header: show/select toggle. */
+  /** 列見出し: 表示切り替え。 */
   showColumn: string;
-  /** Column header: select action. */
+  /** 列見出し: 選択操作。 */
   actionColumn: string;
 
-  // fetch_homework_storage: submission-status labels used to detect open work.
+  // fetch_homework_storage: 未完了の課題を判別するための提出ステータス表示。
   notExecuted: string;
   notViewed: string;
   notSubmitted: string;
   notResponded: string;
   resubmission: string;
-  /** Label marking an assignment as no longer available. */
+  /** 課題が公開終了であることを示すラベル。 */
   unavailable: string;
 
-  // popup controls.
+  // ポップアップの操作系。
   clearAll: string;
   clearOverdue: string;
   recordsPerPageLabel: string;
   recordsPerPageError: string;
 
-  // show_homework_storage selection controls.
+  // show_homework_storage の選択操作系。
   completeSelected: string;
   completedAssignments: string;
   restoreSelected: string;
