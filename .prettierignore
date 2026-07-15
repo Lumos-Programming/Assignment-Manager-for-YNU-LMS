@@ -3,6 +3,6 @@
 # Ignore artifacts:
 build
 
-# Vendored / minified assets should not be reformatted.
+# 外部由来・minify 済みのファイルは再整形しない。
 public/mermaid.min.css
 pnpm-lock.yaml

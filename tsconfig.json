@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "types": ["chrome"],
+    "baseUrl": ".",
+    "paths": {
+      // gridjs は型定義を同梱しているが package.json の "exports" に "types"
+      // 条件が無いため、bundler 解決では見つけられない。実際の型定義ファイルを
+      // 直接指す。
+      "gridjs": ["node_modules/gridjs/dist/index.d.ts"],
+      "gridjs/l10n": ["node_modules/gridjs/l10n/dist/index.d.ts"]
+    },
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts"]
+}
