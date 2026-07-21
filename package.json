@@ -1,6 +1,6 @@
 {
   "name": "Assignment Manager for YNU LMS",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "description": "Manage your homework easily",
   "private": true,
   "scripts": {
