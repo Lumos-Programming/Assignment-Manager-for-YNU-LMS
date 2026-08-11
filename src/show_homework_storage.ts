@@ -5,6 +5,11 @@
 import { Grid, h, UserConfig } from 'gridjs';
 import { jaJP } from 'gridjs/l10n';
 
+import {
+  completeSelectedAssignments,
+  partitionAssignments,
+  restoreSelectedAssignments,
+} from './assignment-lifecycle';
 import { dueTime } from './date';
 import { getLanguageFromPage } from './language';
 import { getMessages, Messages } from './i18n';
@@ -50,10 +55,6 @@ function getGridLanguage(): GridLanguageTable {
     return ja as unknown as GridLanguageTable;
   }
   return {};
-}
-
-function isVisibleAssignment(assignment: Assignment): boolean {
-  return assignment.isVisible !== false;
 }
 
 function getAssignmentSubject(assignment: Assignment): string {
@@ -111,17 +112,12 @@ async function setAssignmentsVisibility(
   assignments: Assignment[],
   isVisible: boolean
 ): Promise<void> {
-  const updated = assignments.map((assignment) => {
-    const next: Assignment = { ...assignment, isVisible };
-    if (isVisible) {
-      delete next.hiddenAt;
-      delete next.hiddenReason;
-    } else {
-      next.hiddenAt = new Date().toJSON();
-      next.hiddenReason = 'done';
-    }
-    return next;
-  });
+  const selectedIds = new Set(assignments.map((assignment) => assignment.id));
+  const updated = isVisible
+    ? restoreSelectedAssignments(assignments, selectedIds)
+    : completeSelectedAssignments(assignments, selectedIds, () =>
+        new Date().toJSON()
+      );
   await saveAssignments(updated);
 }
 
@@ -307,9 +303,10 @@ async function injectAssignmentTable(): Promise<void> {
 
   const assignments = await loadAssignments();
   assignments.sort((a, b) => dueTime(a.due) - dueTime(b.due));
+  const { active: activeAssignments, completed: hiddenAssignments } =
+    partitionAssignments(assignments);
 
   const rows: GridCell[][] = [];
-  const hiddenAssignments: Assignment[] = [];
   const selectedAssignments = new Map<string, Assignment>();
 
   // 各行のチェックボックスのハンドラから参照できるよう、先に生成しておく。
@@ -319,12 +316,7 @@ async function injectAssignmentTable(): Promise<void> {
     selectedAssignments
   );
 
-  for (const assignment of assignments) {
-    if (!isVisibleAssignment(assignment)) {
-      hiddenAssignments.push(assignment);
-      continue;
-    }
-
+  for (const assignment of activeAssignments) {
     // 表示可否と残り日数を分けて評価する。
     let daysLeft = Number.NEGATIVE_INFINITY;
     if (assignment.due) {
