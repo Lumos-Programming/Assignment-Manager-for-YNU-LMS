@@ -39,7 +39,7 @@
     "gridjs": "^5.1.0"
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "*.{js,mjs,ts}": [
       "eslint --fix",
       "prettier --write"
     ],
