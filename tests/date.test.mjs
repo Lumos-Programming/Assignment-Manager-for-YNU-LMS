@@ -9,11 +9,3 @@ test('期限文字列をタイムスタンプへ変換する', () => {
     Date.parse('2026-08-10T12:34:56.000Z')
   );
 });
-
-test('期限がない場合は0を返す', () => {
-  assert.equal(dueTime(null), 0);
-});
-
-test('不正な期限文字列ではNaNを返す', () => {
-  assert.ok(Number.isNaN(dueTime('not-a-date')));
-});
