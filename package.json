@@ -6,11 +6,12 @@
   "scripts": {
     "watch": "webpack --mode=development --watch --config config/webpack.config.js",
     "build": "webpack --mode=production --config config/webpack.config.js",
-    "format": "prettier --write --ignore-unknown \"{config,public,src}/**/*.{html,css,js,ts,json}\"",
-    "format:check": "prettier --check --ignore-unknown \"{config,public,src}/**/*.{html,css,js,ts,json}\"",
+    "format": "prettier --write --ignore-unknown \"{config,public,src,tests}/**/*.{html,css,js,mjs,ts,json}\"",
+    "format:check": "prettier --check --ignore-unknown \"{config,public,src,tests}/**/*.{html,css,js,mjs,ts,json}\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.mjs",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -27,6 +28,7 @@
     "mini-css-extract-plugin": "^2.10.2",
     "prettier": "^3.9.5",
     "ts-loader": "^9.6.2",
+    "tsx": "4.23.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.64.0",
     "webpack": "^5.108.4",
@@ -37,7 +39,7 @@
     "gridjs": "^5.1.0"
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "*.{js,mjs,ts}": [
       "eslint --fix",
       "prettier --write"
     ],
@@ -48,7 +50,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": ">=11.0.0 <12.0.0",
+      "version": ">=11.19.0 <12.0.0",
       "onFail": "download"
     },
     "runtime": [
